@@ -6,6 +6,11 @@ interface SignUpParams {
   password: string;
 }
 
+interface SignInParams {
+  email: string;
+  password: string;
+}
+
 export const authRepository = {
   async signup({ name, email, password }: SignUpParams) {
     const { data, error } = await supabase.auth.signUp({
@@ -15,6 +20,15 @@ export const authRepository = {
     });
 
     if (error !== null) throw new Error(error.message);
+    return { ...data.user, userName: data.user?.user_metadata.name };
+  },
+
+  async signin({ email, password }: SignInParams) {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    if (error) throw new Error(error.message);
     return { ...data.user, userName: data.user?.user_metadata.name };
   },
 };
