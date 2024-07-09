@@ -1,7 +1,13 @@
 import { supabase } from "../lib/supabase";
 
+interface SignUpParams {
+  name: string;
+  email: string;
+  password: string;
+}
+
 export const authRepository = {
-  async signup(name: string, email: string, password: string) {
+  async signup({ name, email, password }: SignUpParams) {
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
