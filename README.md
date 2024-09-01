@@ -2,8 +2,6 @@
 
 ![image](https://github.com/user-attachments/assets/811f8025-465a-4772-b766-c2607d6b6c04)
 
-![image](https://github.com/user-attachments/assets/00f41d5e-5137-4c36-bd28-072d8c3d1d7c)
-
 ![image](https://github.com/user-attachments/assets/30683682-c7d1-4757-b428-2553e5e0a599)
 
 URL: https://simple-sns-app-git-main-wm4sbis73bzbs-projects.vercel.app
