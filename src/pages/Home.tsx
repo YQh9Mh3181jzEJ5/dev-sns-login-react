@@ -6,12 +6,13 @@ import { postRepository } from "../repositories/post";
 import { PostList } from "../components/PostList";
 import { Post } from "../type/post";
 import { Pagination } from "../components/Pagenation";
+import { authRepository } from "../repositories/auth";
 const limit: number = 5;
 function Home() {
   const [content, setContent] = useState<string>("");
   const [posts, setPosts] = useState<Post[]>([]);
   const [page, setPage] = useState<number>(1);
-  const { currentUser } = useContext(SessionContext);
+  const { currentUser, setCurrentUser } = useContext(SessionContext);
   if (currentUser === null) return <Navigate replace to={"/signin"} />;
   const createPost = async () => {
     const post = await postRepository.create(content, currentUser.id);
@@ -49,12 +50,25 @@ function Home() {
     setPage(prevPage);
   };
 
+  const deletePost = async (postId: string) => {
+    await postRepository.delete(postId);
+    const newPosts = posts.filter((post) => post.id !== postId);
+    setPosts(newPosts);
+  };
+
+  const signout = async () => {
+    await authRepository.signout();
+    setCurrentUser(null);
+  };
+
   return (
     <div className="min-h-screen bg-gray-100">
       <header className="bg-[#34D399] p-4">
         <div className="container mx-auto flex items-center justify-between">
           <h1 className="text-3xl font-bold text-white">SNS APP</h1>
-          <button className="text-white hover:text-red-600">ログアウト</button>
+          <button className="text-white hover:text-red-600" onClick={signout}>
+            ログアウト
+          </button>
         </div>
       </header>
       <div className="container mx-auto mt-6 p-4">
@@ -77,7 +91,7 @@ function Home() {
             </div>
             <div className="mt-4">
               {posts.map((post) => (
-                <PostList key={post.id} post={post} />
+                <PostList key={post.id} post={post} onDelete={deletePost} />
               ))}
             </div>
             <Pagination

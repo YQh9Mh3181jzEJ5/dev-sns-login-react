@@ -35,4 +35,9 @@ export const postRepository = {
       };
     });
   },
+  async delete(id: string) {
+    const { error } = await supabase.from("posts").delete().eq("id", id);
+    if (error) throw new Error(error.message);
+    return true;
+  },
 };

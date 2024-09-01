@@ -58,4 +58,9 @@ export const authRepository = {
       return null;
     }
   },
+  async signout() {
+    const { error } = await supabase.auth.signOut();
+    if (error) throw new Error(error.message);
+    return true;
+  },
 };

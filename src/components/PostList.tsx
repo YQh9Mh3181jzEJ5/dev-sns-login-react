@@ -8,7 +8,10 @@ export function PostList(props: any) {
       <h3 className="text-lg font-semibold">by {props.post.userName}</h3>
       <p className="text-gray-700"> {props.post.content}</p>
       {currentUser!.id === props.post.userId && (
-        <button className="text-blue-500 hover:underline cursor-pointer focus:outline-none">
+        <button
+          className="text-blue-500 hover:underline cursor-pointer focus:outline-none"
+          onClick={() => props.onDelete(props.post.id)}
+        >
           削除
         </button>
       )}

@@ -4,11 +4,11 @@ interface PaginationProps {
 }
 
 export function Pagination({ onPrev, onNext }: PaginationProps) {
-  const handlePrev: React.MouseEventHandler<HTMLButtonElement> = (event) => {
+  const handlePrev: React.MouseEventHandler<HTMLButtonElement> = () => {
     if (onPrev) onPrev();
   };
 
-  const handleNext: React.MouseEventHandler<HTMLButtonElement> = (event) => {
+  const handleNext: React.MouseEventHandler<HTMLButtonElement> = () => {
     if (onNext) onNext();
   };
   return (
