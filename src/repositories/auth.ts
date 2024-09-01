@@ -24,6 +24,7 @@ export const authRepository = {
     return {
       id: data.user?.id || "",
       name: data.user?.user_metadata.name || "",
+      email: data.user?.email || "",
       userName: data.user?.user_metadata.name || "",
     };
   },
@@ -37,6 +38,7 @@ export const authRepository = {
     return {
       id: data.user?.id || "",
       name: data.user?.user_metadata.name || "",
+      email: data.user?.email || "",
       userName: data.user?.user_metadata.name || "",
     };
   },
@@ -48,6 +50,7 @@ export const authRepository = {
       return {
         id: data.session.user.id,
         name: data.session.user.user_metadata.name || "",
+        email: data.session.user.email || "",
         userName: data.session.user.user_metadata.name || "",
       };
     } catch (error) {
