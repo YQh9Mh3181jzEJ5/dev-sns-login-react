@@ -1,30 +1,29 @@
-# React + TypeScript + Vite
+# SNS APP 🚀
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## プロジェクト概要 📝
 
-Currently, two official plugins are available:
+SNS APP は、React、TypeScript、Vite、Supabase を使用して構築されたシンプルな SNS です。ユーザーは投稿を作成し、他のユーザーの投稿を閲覧することができます。
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 主な機能 ✨
 
-## Expanding the ESLint configuration
+- ユーザー認証（サインアップ、サインイン、サインアウト）👤
+- 投稿の作成と削除 ✍️
+- 投稿一覧の表示（ページネーション付き）📚
+- ユーザープロフィールの表示 👀
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## 技術スタック 🛠️
 
-- Configure the top-level `parserOptions` property like this:
+- フロントエンド：React、TypeScript
+- ビルドツール：Vite
+- スタイリング：Tailwind CSS
+- バックエンド：Supabase
+- ルーティング：React Router
+- 状態管理：React Context API
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+## 使用方法 📖
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+1. サインアップまたはサインインする
+2. ホーム画面で新しい投稿を作成する
+3. 他のユーザーの投稿を閲覧する
+4. 自分の投稿を削除する（必要に応じて）
+5. サイドメニューでプロフィール情報を確認する
