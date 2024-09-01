@@ -1,4 +1,11 @@
+import { useContext } from "react";
+import { Navigate } from "react-router-dom";
+import { SessionContext } from "../SessionProvider";
+
 function Home() {
+  const { currentUser } = useContext(SessionContext);
+  if (currentUser === null) return <Navigate replace to={"/signin"} />;
+
   return (
     <div className="min-h-screen bg-gray-100">
       <header className="bg-[#34D399] p-4">

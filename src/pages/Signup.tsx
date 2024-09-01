@@ -1,15 +1,24 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { authRepository } from "../repositories/auth";
+import { Navigate } from "react-router-dom";
+import { SessionContext } from "../SessionProvider";
 
 function Signup() {
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const { currentUser, setCurrentUser } = useContext(SessionContext);
 
   const signup = async () => {
-    const user = await authRepository.signup({ name, email, password });
-    console.log(user);
+    try {
+      const user = await authRepository.signup({ name, email, password });
+      setCurrentUser(user);
+    } catch (error) {
+      console.error("Signup error:", error);
+    }
   };
+
+  if (currentUser !== null) return <Navigate replace to={"/"} />;
 
   return (
     <div className="min-h-screen bg-gray-100 py-10 px-4 sm:px-6 lg:px-8">

@@ -1,4 +1,5 @@
 import { supabase } from "../lib/supabase";
+import { SessionUser } from "../type/settion";
 
 interface SignUpParams {
   name: string;
@@ -20,7 +21,11 @@ export const authRepository = {
     });
 
     if (error !== null) throw new Error(error.message);
-    return { ...data.user, userName: data.user?.user_metadata.name };
+    return {
+      id: data.user?.id || "",
+      name: data.user?.user_metadata.name || "",
+      userName: data.user?.user_metadata.name || "",
+    };
   },
 
   async signin({ email, password }: SignInParams) {
@@ -29,6 +34,25 @@ export const authRepository = {
       password,
     });
     if (error) throw new Error(error.message);
-    return { ...data.user, userName: data.user?.user_metadata.name };
+    return {
+      id: data.user?.id || "",
+      name: data.user?.user_metadata.name || "",
+      userName: data.user?.user_metadata.name || "",
+    };
+  },
+  async getCurrentUser(): Promise<SessionUser | null> {
+    try {
+      const { data, error } = await supabase.auth.getSession();
+      if (error) throw error;
+      if (!data.session) return null;
+      return {
+        id: data.session.user.id,
+        name: data.session.user.user_metadata.name || "",
+        userName: data.session.user.user_metadata.name || "",
+      };
+    } catch (error) {
+      console.error("Error getting current user:", error);
+      return null;
+    }
   },
 };
