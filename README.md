@@ -1,5 +1,11 @@
 # SNS APP 🚀
 
+![image](https://github.com/user-attachments/assets/811f8025-465a-4772-b766-c2607d6b6c04)
+
+![image](https://github.com/user-attachments/assets/30683682-c7d1-4757-b428-2553e5e0a599)
+
+URL: https://simple-sns-app-git-main-wm4sbis73bzbs-projects.vercel.app
+
 ## プロジェクト概要 📝
 
 SNS APP は、React、TypeScript、Vite、Supabase を使用して構築されたシンプルな SNS です。ユーザーは投稿を作成し、他のユーザーの投稿を閲覧することができます。
