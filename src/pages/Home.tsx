@@ -1,12 +1,21 @@
+import { Pagination } from "@/components/Pagenation";
+import { PostList } from "@/components/PostList";
+import { SideMenu } from "@/components/SideMenu";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
+import { authRepository } from "@/repositories/auth";
+import { postRepository } from "@/repositories/post";
+import { SessionContext } from "@/SessionProvider";
+import { Post } from "@/type/post";
 import { useContext, useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
-import { SessionContext } from "../SessionProvider";
-import { SideMenu } from "../components/SideMenu";
-import { postRepository } from "../repositories/post";
-import { PostList } from "../components/PostList";
-import { Post } from "../type/post";
-import { Pagination } from "../components/Pagenation";
-import { authRepository } from "../repositories/auth";
 const limit: number = 5;
 function Home() {
   const [content, setContent] = useState<string>("");
@@ -14,6 +23,7 @@ function Home() {
   const [page, setPage] = useState<number>(1);
   const { currentUser, setCurrentUser } = useContext(SessionContext);
   if (currentUser === null) return <Navigate replace to={"/signin"} />;
+
   const createPost = async () => {
     const post = await postRepository.create(content, currentUser.id);
     if (post) {
@@ -57,39 +67,66 @@ function Home() {
   };
 
   const signout = async () => {
-    await authRepository.signout();
-    setCurrentUser(null);
+    try {
+      await authRepository.signout();
+      setCurrentUser(null);
+    } catch (error) {
+      console.error("ログアウト中にエラーが発生しました:", error);
+      // エラーが発生しても、アプリケーションの状態をリセットする
+      setCurrentUser(null);
+    }
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <header className="bg-[#34D399] p-4">
-        <div className="container mx-auto flex items-center justify-between">
-          <h1 className="text-3xl font-bold text-white">SNS APP</h1>
-          <button className="text-white hover:text-red-600" onClick={signout}>
-            ログアウト
-          </button>
+    <div className="relative min-h-screen">
+      {/* 背景画像とオーバーレイ */}
+      <div className="fixed inset-0 z-0">
+        <img
+          src="/rome.jpg"
+          alt="background"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black bg-opacity-30 backdrop-filter backdrop-blur-sm"></div>
+      </div>
+
+      {/* ヘッダー */}
+      <header className="fixed top-0 left-0 right-0 z-20 bg-white">
+        <div className="container mx-auto p-4">
+          <div className="flex items-center justify-between">
+            <h1 className="text-3xl font-bold text-slate-800">SNS APP</h1>
+            <Button variant="outline" onClick={signout}>
+              ログアウト
+            </Button>
+          </div>
         </div>
       </header>
-      <div className="container mx-auto mt-6 p-4">
-        <div className="grid grid-cols-3 gap-4">
-          <div className="col-span-2">
-            <div className="bg-white p-4 rounded-lg shadow-md">
-              <textarea
-                className="w-full p-2 mb-4 border-2 border-gray-200 rounded-md"
-                placeholder="What's on your mind?"
-                onChange={(event) => setContent(event.target.value)}
-                value={content}
-              />
-              <button
-                className="bg-[#34D399] text-white px-4 py-2 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed"
-                onClick={createPost}
-                disabled={content === ""}
-              >
-                Post
-              </button>
-            </div>
-            <div className="mt-4">
+
+      {/* メインコンテンツ */}
+      <div className="relative z-1 pt-24">
+        <div className="container mx-auto max-w-4xl grid grid-cols-1 md:grid-cols-3 gap-8 z-10">
+          <div className="md:col-span-2 space-y-8">
+            <Card className="rounded">
+              <CardHeader>
+                <CardTitle>新規投稿</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Textarea
+                  placeholder="いまをつぶやこう！"
+                  onChange={(event) => setContent(event.target.value)}
+                  value={content}
+                />
+              </CardContent>
+              <CardFooter>
+                <Button
+                  className="w-full"
+                  onClick={createPost}
+                  disabled={content === ""}
+                >
+                  投稿する
+                </Button>
+              </CardFooter>
+            </Card>
+            <div className="space-y-4">
               {posts.map((post) => (
                 <PostList key={post.id} post={post} onDelete={deletePost} />
               ))}
