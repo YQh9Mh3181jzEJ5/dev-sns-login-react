@@ -1,3 +1,4 @@
+import BackgroundImage from "@/components/BackgroundImage";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -7,7 +8,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { authRepository } from "@/repositories/auth";
+import { authApi } from "@/features/auth/api/authApi";
 import { SessionContext } from "@/SessionProvider";
 import { useContext, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
@@ -19,8 +20,13 @@ function Signin() {
 
   const signin = async () => {
     try {
-      const user = await authRepository.signin({ email, password });
-      setCurrentUser(user);
+      const user = await authApi.signin({ email, password });
+      setCurrentUser({
+        id: user.id,
+        name: user.userName,
+        email: user.email,
+        userName: user.userName,
+      });
     } catch (error) {
       console.error("Sign in エラー:", error);
     }
@@ -31,17 +37,11 @@ function Signin() {
   return (
     <div className="relative h-screen flex items-center">
       {/* 背景画像 */}
-      <div className="absolute inset-0 z-0">
-        <img
-          src="/rome.jpg"
-          alt="background"
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-black bg-opacity-30 backdrop-filter backdrop-blur-sm"></div>
-      </div>
+
+      <BackgroundImage src={"/rome.jpg"} />
 
       {/* コンテンツ */}
-      <div className="relative z-10 w-full flex justify-evenly container mx-auto ">
+      <div className="relative z-10 w-full flex justify-evenly container mx-auto">
         {/* 左：文字列 */}
         <div className="flex items-center">
           <h2 className="text-7xl font-bold text-white">いま、はじめよう。</h2>

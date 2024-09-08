@@ -1,19 +1,8 @@
-import { supabase } from "../lib/supabase";
-import { SessionUser } from "../type/settion";
+import { supabase } from "@/lib/supabase";
+import { AuthCredentials, SignUpCredentials, User } from "@/type/settion";
 
-interface SignUpParams {
-  name: string;
-  email: string;
-  password: string;
-}
-
-interface SignInParams {
-  email: string;
-  password: string;
-}
-
-export const authRepository = {
-  async signup({ name, email, password }: SignUpParams) {
+export const authApi = {
+  async signup({ name, email, password }: SignUpCredentials) {
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -21,28 +10,27 @@ export const authRepository = {
     });
 
     if (error !== null) throw new Error(error.message);
+
     return {
-      id: data.user?.id || "",
-      name: data.user?.user_metadata.name || "",
-      email: data.user?.email || "",
-      userName: data.user?.user_metadata.name || "",
+      ...data.user,
+      userName: data.user?.user_metadata.name,
     };
   },
 
-  async signin({ email, password }: SignInParams) {
+  async signin({ email, password }: AuthCredentials) {
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
     if (error) throw new Error(error.message);
+
     return {
-      id: data.user?.id || "",
-      name: data.user?.user_metadata.name || "",
-      email: data.user?.email || "",
-      userName: data.user?.user_metadata.name || "",
+      ...data.user,
+      userName: data.user?.user_metadata.name,
     };
   },
-  async getCurrentUser(): Promise<SessionUser | null> {
+
+  async getCurrentUser(): Promise<User | null> {
     try {
       const { data, error } = await supabase.auth.getSession();
       if (error) throw error;
@@ -58,9 +46,8 @@ export const authRepository = {
       return null;
     }
   },
-  async signout() {
+  async signout(): Promise<void> {
     const { error } = await supabase.auth.signOut();
     if (error) throw new Error(error.message);
-    return true;
   },
 };

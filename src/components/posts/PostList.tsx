@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/card";
 import { SessionContext } from "@/SessionProvider";
 import { useContext } from "react";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 
 const formatDate = (dateString: string): string => {
   const date = new Date(dateString);

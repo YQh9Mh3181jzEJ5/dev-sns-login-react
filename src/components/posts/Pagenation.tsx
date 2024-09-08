@@ -5,7 +5,7 @@ interface PaginationProps {
   onNext: (() => void) | null;
 }
 
-export function Pagination({ onPrev, onNext }: PaginationProps) {
+export default function Pagination({ onPrev, onNext }: PaginationProps) {
   const handlePrev: React.MouseEventHandler<HTMLButtonElement> = () => {
     if (onPrev) onPrev();
   };

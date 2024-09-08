@@ -1,14 +1,18 @@
-import React, { createContext, useState, ReactNode, useEffect } from "react";
-import { authRepository } from "./repositories/auth";
-import { SessionUser } from "./type/settion";
+import React, {
+  createContext,
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
+
+import { authApi } from "./features/auth/api/authApi";
+import { User } from "./type/settion";
 
 interface SessionContextType {
-  currentUser: SessionUser | null;
-  setCurrentUser: React.Dispatch<React.SetStateAction<SessionUser | null>>;
-}
-
-interface SessionProviderProps {
-  children: ReactNode;
+  currentUser: User | null;
+  setCurrentUser: Dispatch<SetStateAction<User | null>>;
 }
 
 const SessionContext = createContext<SessionContextType>({
@@ -16,14 +20,18 @@ const SessionContext = createContext<SessionContextType>({
   setCurrentUser: () => {},
 });
 
+interface SessionProviderProps {
+  children: ReactNode;
+}
+
 const SessionProvider: React.FC<SessionProviderProps> = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState<SessionUser | null>(null);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const setSession = async () => {
       try {
-        const user = await authRepository.getCurrentUser();
+        const user = await authApi.getCurrentUser();
         setCurrentUser(user);
       } catch (error) {
         console.error("Error setting session:", error);

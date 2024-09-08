@@ -1,3 +1,4 @@
+import BackgroundImage from "@/components/BackgroundImage";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -8,10 +9,19 @@ import {
 import { Input } from "@/components/ui/input";
 
 import { Separator } from "@/components/ui/separator";
-import { authRepository } from "@/repositories/auth";
+import { authApi } from "@/features/auth/api/authApi";
 import { SessionContext } from "@/SessionProvider";
+import { User } from "@/type/settion";
 import { useContext, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
+
+type SignupResponse = {
+  id?: string;
+  email?: string;
+  user_metadata?: {
+    name?: string;
+  };
+};
 
 function Signup() {
   const [name, setName] = useState<string>("");
@@ -21,8 +31,20 @@ function Signup() {
 
   const signup = async () => {
     try {
-      const user = await authRepository.signup({ name, email, password });
-      setCurrentUser(user);
+      const signupUser: SignupResponse = await authApi.signup({
+        name,
+        email,
+        password,
+      });
+      console.log(signupUser);
+      const formattedUser: User = {
+        id: signupUser.id ?? "",
+        name: signupUser.user_metadata?.name || name,
+        email: signupUser.email || "",
+        userName: signupUser.user_metadata?.name || name,
+      };
+
+      setCurrentUser(formattedUser);
     } catch (error) {
       console.error("Signup error:", error);
     }
@@ -32,15 +54,7 @@ function Signup() {
 
   return (
     <div className="relative h-screen flex items-center">
-      {/* 背景画像 */}
-      <div className="absolute inset-0 z-0">
-        <img
-          src="/newyork.jpg"
-          alt="background"
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-black bg-opacity-30 backdrop-filter backdrop-blur-sm"></div>
-      </div>
+      <BackgroundImage src={"/newyork.jpg"} />
 
       {/* コンテンツ */}
       <div className="relative z-10 w-full flex justify-evenly container mx-auto ">

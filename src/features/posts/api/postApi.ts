@@ -1,11 +1,11 @@
-import { supabase } from "../lib/supabase";
-import { Post } from "../type/post";
+import { Posts } from "@/type/post";
+import { supabase } from "../../../lib/supabase";
 
-export const postRepository = {
+export const postApi = {
   async create(
     content: string,
     userId: string
-  ): Promise<Post | null | undefined> {
+  ): Promise<Posts | null | undefined> {
     const { data, error } = await supabase.from("posts").insert([
       {
         content,
@@ -14,8 +14,10 @@ export const postRepository = {
     ]);
 
     if (error) throw new Error(error.message);
+    if (data !== null) console.log(data[0]);
     if (data !== null) return data[0];
   },
+
   async find(page: number, limit: number) {
     page = isNaN(page) || page < 1 ? 1 : page;
     const start = (page - 1) * limit;

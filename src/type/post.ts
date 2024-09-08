@@ -1,4 +1,4 @@
-export interface Post {
+export interface Posts {
   id: string;
   content: string;
   user_id: string;
@@ -11,3 +11,8 @@ export interface Post {
     };
   };
 }
+
+// export interface CreatePostDto {
+//   content: string;
+//   userId: string;
+// }
