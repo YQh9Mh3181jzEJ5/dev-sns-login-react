@@ -14,7 +14,6 @@ export const postApi = {
     ]);
 
     if (error) throw new Error(error.message);
-    if (data !== null) console.log(data[0]);
     if (data !== null) return data[0];
   },
 

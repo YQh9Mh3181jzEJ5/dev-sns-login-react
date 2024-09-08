@@ -31,7 +31,6 @@ export const usePostsManager = (userId: string) => {
       const newPost = await postApi.create(content, userId);
       if (newPost) {
         setPosts((prevPosts) => [newPost, ...prevPosts]);
-        console.log(posts);
       }
     } catch (err) {
       setError("Failed to create post. Please try again.");

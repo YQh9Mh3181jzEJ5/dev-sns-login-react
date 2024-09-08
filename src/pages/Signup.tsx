@@ -36,7 +36,6 @@ function Signup() {
         email,
         password,
       });
-      console.log(signupUser);
       const formattedUser: User = {
         id: signupUser.id ?? "",
         name: signupUser.user_metadata?.name || name,
