@@ -1,8 +1,8 @@
 # SNS APP 🚀
 
-![image](https://github.com/user-attachments/assets/811f8025-465a-4772-b766-c2607d6b6c04)
+![sns-app](https://github.com/user-attachments/assets/56008331-5102-4958-94d6-d32f0d850a9b)
 
-![image](https://github.com/user-attachments/assets/30683682-c7d1-4757-b428-2553e5e0a599)
+![sns-app2](https://github.com/user-attachments/assets/5ac11eb4-91ae-4669-ab58-3d7deb8c0b31)
 
 URL: https://simple-sns-app-git-main-wm4sbis73bzbs-projects.vercel.app
 
